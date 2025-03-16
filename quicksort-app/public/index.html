@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quicksort Web App</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffebf3;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #ff69b4;
+            font-size: 2rem;
+        }
+
+        input {
+            width: 250px;
+            padding: 10px;
+            border: 2px solid #ff69b4;
+            border-radius: 20px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #ff1493;
+            transform: scale(1.1);
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <h1>✨ Enter numbers to sort ✨</h1>
+    <input type="text" id="numbers" placeholder="e.g. 5,3,8,1">
+    <button onclick="sortNumbers()">Sort</button>
+    <h2 id="result"></h2>
+
+    <script>
+        async function sortNumbers() {
+            const numbers = document.getElementById("numbers").value;
+            const response = await fetch("/sort", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `numbers=${encodeURIComponent(numbers)}`
+            });
+            const data = await response.json();
+            document.getElementById("result").innerText = 
+                data.error ? data.error : `🎀 Sorted: ${data.sortedNumbers} 🎀`;
+        }
+    </script>
+</body>
+</html>
